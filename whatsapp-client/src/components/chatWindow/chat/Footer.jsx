@@ -1,16 +1,16 @@
 import { Box, styled, InputBase } from '@mui/material'
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
-import AttachFileIcon from '@mui/icons-material/AttachFile';
+// import AttachFileIcon from '@mui/icons-material/AttachFile';
 import { Mic } from '@mui/icons-material';
 import { AccountContext } from '../../context/AccountProvider';
-import { sendMessage } from '../../services/api';
+import { sendMessage, uploadFile } from '../../services/api';
 
 
 const Wrapper = styled(Box)`
 display : flex;
 align-items : center;
-padding : 0px 20px;
+// padding : 0px 20px;
 background-color : #ededed;
 height : 55px;
 width : 100%;
@@ -19,13 +19,13 @@ width : 100%;
   padding : 0px 8px;
 }
 
-& :nth-child(2){
-  transform : rotate(45deg);
-}
+// & :nth-child(2){
+//   transform : rotate(45deg);
+// }
 `
 
 const InputContainer = styled(Box)`
-width : calc(94% - 100px);
+width : calc(94% - 60px);
 
 `
 
@@ -39,7 +39,33 @@ padding : 0 15px;
 
 const Footer = ({messageText, setMessageText, conversationDetails}) => {
 
-  const {person , account} = useContext(AccountContext)
+  const {person , account, setNewMessageFlag, socket} = useContext(AccountContext)
+  // const [file , setFile] = useState();
+
+
+// useEffect(()=>{
+//   const stageFile = async() =>{
+//       if(file){
+//         console.log(file);
+//         const fileData = new FormData();
+//         fileData.append("name", file.name);
+//         fileData.append("file", file);  
+
+//         console.log(fileData);
+//         // api call
+//         await uploadFile(fileData);
+//       }
+//   }
+//   stageFile();
+// },[file])
+
+  // const handleFileUpload = (e) =>{
+  //   if(e.target.files[0]) 
+  //   {
+  //     setFile(e.target.files[0]);
+  //     setMessageText(e.target.files[0].name)
+  //   }
+  // }
 
   const handleSendMessage = async(e)=>{
     if(e.which===13){
@@ -51,10 +77,13 @@ const Footer = ({messageText, setMessageText, conversationDetails}) => {
         message: messageText
       }
 
+      socket.current.emit("sendMessage", message);
       await sendMessage(message);
+
 
       // resetting the message
       setMessageText('');
+      setNewMessageFlag(prev=>!prev)
     }
 
   }
@@ -62,7 +91,10 @@ const Footer = ({messageText, setMessageText, conversationDetails}) => {
   return (
    <Wrapper>
     <InsertEmoticonIcon />
+    {/* <label htmlFor="fileInput">
     <AttachFileIcon  />
+    </label>
+    <input type="file" style={{display: "none"}} id='fileInput' onChange={(e)=>handleFileUpload(e)} /> */}
    <InputContainer>
     <InputField  placeholder='Type your message here' onChange={(e)=>setMessageText(e.target.value)} onKeyPress={handleSendMessage} value={messageText}/>
    </InputContainer>

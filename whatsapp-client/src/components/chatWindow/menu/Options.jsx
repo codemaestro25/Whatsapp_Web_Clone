@@ -1,6 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { MoreVert } from '@mui/icons-material'
 import { Menu, MenuItem, styled} from '@mui/material'
+import { googleLogout } from '@react-oauth/google'
+import { AccountContext } from '../../context/AccountProvider'
+
 
 
 const MenuContent = styled(MenuItem)`
@@ -12,7 +15,8 @@ color : #4A4A4A;
 const Options = ({openDrawer}) => {
 
     const [open, setOpen] = useState(null);
-
+    const {setAccount, socket, setPerson} = useContext(AccountContext);
+ 
     const handleOpen = (e) => {
         setOpen(e.target);
     }
@@ -20,8 +24,22 @@ const Options = ({openDrawer}) => {
     const handleClose = () =>{
         setOpen(null);
     }
+
+    const handleLogout = async() =>{
+        try {
+          await googleLogout();
+
+          // setAccount();
+          setPerson({});
+          socket.current.disconnect();
+          console.log("Logout Successfull!");
+        } catch (error) {
+          console.log("Error: ", error);
+        }
+    }
   return (
     <>
+    
     <MoreVert onClick={handleOpen} />
     <Menu
 
@@ -46,6 +64,8 @@ const Options = ({openDrawer}) => {
       
       >
         <MenuContent onClick={()=>{handleClose(); openDrawer(true)}}>Profile</MenuContent>
+        {/* <MenuContent onClick={handleLogout}>Logout</MenuContent> */}
+       
       
       </Menu>
 

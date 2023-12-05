@@ -7,15 +7,16 @@ import { AccountContext } from '../context/AccountProvider';
 
 const dialogStyle = {
     height:"95%",
-    width:"100%",
+    width:"100%",    
     maxWidth:"100%",
     maxHeight:"100%",
-    overflow: "none"
+    overflowY: "visible",
+
 }
 
 const Container = styled(Box)`
 display:flex;
-overflow: hidden;
+// overflow: hidden;
 `
 
 const MenuContainer = styled(Box)`
@@ -23,7 +24,7 @@ min-width:450px;
 `
 
 const ChatContainer = styled(Box)`
-min-width:75%;
+flex:1;
 `
 
 const ChatDialog = () => {

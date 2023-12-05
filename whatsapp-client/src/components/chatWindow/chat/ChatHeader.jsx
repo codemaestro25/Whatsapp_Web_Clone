@@ -31,20 +31,20 @@ const RightSideIcons = styled(Box)`
 margin-left : auto;
 
 & > * {
-  margin-right : 40px;
+  margin: 0 8px;
   font-size: 28px;
   color: #626363;
 }
 `
 const ChatHeader = () => {
 
-  const {person} = useContext(AccountContext)
+  const {person, activeUsers} = useContext(AccountContext)
   return (
    <Container>
     <ProfileImage src={person.picture} /> 
     <Box>
         <Name>{person.name}</Name>
-        <Status>Offline</Status>
+        <Status>{activeUsers?.find(user => user.sub == person.sub) ? "Online " : " Offline"}</Status>
     </Box>
        <RightSideIcons>
         <Search />

@@ -1,0 +1,16 @@
+{
+  "name": "socket",
+  "version": "1.0.0",
+  "description": "socket connection directory",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "socket": "nodemon index.js"
+  },
+  "author": "Deevsh Narkhede",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^3.0.1",
+    "socket.io": "^4.7.2"
+  }
+}

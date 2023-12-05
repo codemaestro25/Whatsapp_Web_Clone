@@ -47,3 +47,21 @@ export const sendMessage = async(message)=>{
         console.log("Error occured to get new conversation", error.message)
     }
 }
+
+export const getMessages = async(conv_id)=>{
+    try {
+        let response = await axios.get(`${URL}/message/get/${conv_id}`)
+        return response.data;
+    } catch (error) {
+        console.log("Error occured to Fetch messages", error.message)
+    }
+}
+
+export const uploadFile = async(fileData) =>{
+    try {
+        await axios.post(`${URL}/file/upload`, fileData);
+
+    } catch (error) {
+        console.log("Error occured while uplaoding file", error.message)
+    }
+}

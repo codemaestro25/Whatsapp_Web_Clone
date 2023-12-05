@@ -20,3 +20,13 @@ export const addNewMessage = async(req, res)=>{
     
 
 }
+
+export const getMessages = async(req, res)=>{
+    try {
+        const messages = await Message.find({conversationId: req.params.conv_id}); // fetching the messages from the Messages collection in mongo which has conversation id same as that provided
+        return res.status(200).send(messages)
+    } catch (error) {
+        return res.status(500).json({msg:"Cant Fetch message", err: error.message});
+    }
+
+}

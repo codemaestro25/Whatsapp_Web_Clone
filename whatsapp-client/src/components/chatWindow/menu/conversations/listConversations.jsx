@@ -8,7 +8,7 @@ const ConversationsList = ({searchText}) => {
 
     const [users , setUsers] = useState([]);
 
-    const {account} = useContext(AccountContext);
+    const {account, socket, setActiveUsers, activeUsers} = useContext(AccountContext);
     useEffect(()=>{
         const fetchData = async()=>{
             let fetchedUsers = await getUsers();
@@ -17,6 +17,14 @@ const ConversationsList = ({searchText}) => {
         }
         fetchData();
     }, [searchText]);
+
+    useEffect(()=>{
+        socket.current.emit("addUsers", account);
+        socket.current.on("getUsers", users =>{
+            setActiveUsers(users); //fetching activeusers from the socket and storing them in the context in order to show the online/offline status
+            // console.log(activeUsers);
+        },[account])
+    })
 
   return (
     <div>

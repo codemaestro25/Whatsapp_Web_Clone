@@ -4,6 +4,7 @@ import ChatBody from './ChatBody';
 import Footer from './Footer';
 import { AccountContext } from '../../context/AccountProvider';
 import { getConversation } from '../../services/api';
+import { Box } from '@mui/material';
 
 
 const Chat = () => {
@@ -22,11 +23,11 @@ const Chat = () => {
 
 
   return (
-   <>
+   <Box>
    <ChatHeader />
-   <ChatBody />
+   <ChatBody conversationDetails={conversationDetails} />
    <Footer messageText={messageText} setMessageText={setMessageText} conversationDetails ={conversationDetails}/>
-   </>
+   </Box>
   )
 }
 
